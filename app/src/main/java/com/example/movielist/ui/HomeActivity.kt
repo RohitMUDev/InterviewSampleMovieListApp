@@ -15,6 +15,7 @@ private const val TAG1 = "Lifecycle Activity"
 class HomeActivity : AppCompatActivity(), SampleDialog.OnClickListner {
 
     private val test = "two  threer"
+    private val test1 = "test1"
     private var _homeActivityMainBinding: ActivityMainBinding? = null
     private val binding get() = _homeActivityMainBinding
 
