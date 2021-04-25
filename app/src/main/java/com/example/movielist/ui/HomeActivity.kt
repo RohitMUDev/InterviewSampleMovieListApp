@@ -7,6 +7,7 @@ import com.example.movielist.databinding.ActivityMainBinding
 class HomeActivity : AppCompatActivity() {
 
     private val test = ""
+    private val test1 = "test1"
     private var _homeActivityMainBinding: ActivityMainBinding? = null
     private val binding get() = _homeActivityMainBinding
 
