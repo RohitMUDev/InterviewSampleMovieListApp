@@ -14,6 +14,7 @@ private const val TAG = "Corountine Lifecycle"
 private const val TAG1 = "Lifecycle Activity"
 class HomeActivity : AppCompatActivity(), SampleDialog.OnClickListner {
 
+    private val test = ""
     private var _homeActivityMainBinding: ActivityMainBinding? = null
     private val binding get() = _homeActivityMainBinding
 
