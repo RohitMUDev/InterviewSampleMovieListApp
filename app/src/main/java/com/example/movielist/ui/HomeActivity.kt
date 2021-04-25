@@ -10,7 +10,7 @@ import com.example.movielist.util.SampleDialog
 import kotlinx.coroutines.*
 import kotlin.system.measureTimeMillis
 
-private const val TAG = "Corountine"
+private const val TAG = "Corountine Lifecycle"
 private const val TAG1 = "Lifecycle Activity"
 class HomeActivity : AppCompatActivity(), SampleDialog.OnClickListner {
 
