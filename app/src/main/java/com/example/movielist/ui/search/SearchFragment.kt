@@ -1,9 +1,11 @@
 package com.example.movielist.ui.search
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,7 @@ import com.example.movielist.ui.movie.MovieListViewModel
 import com.example.movielist.util.SpacesItemDecoration
 import com.example.movielist.util.hideKeyboard
 import org.koin.android.viewmodel.ext.android.viewModel
+private const val TAG = "Lifecycle Fragment2"
 
 class SearchFragment : Fragment() {
 
@@ -35,10 +38,13 @@ class SearchFragment : Fragment() {
 
         _searchFragmentBinding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding!!.root
+        Log.d(TAG, "onCreateView")
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
 
         adapter = SearchAdapter(requireContext(), ArrayList())
         val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
@@ -75,13 +81,29 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding!!.etQuery.addTextChangedListener(textWatcher)
+        Log.d(TAG, "onResume")
+
     }
 
     override fun onPause() {
         super.onPause()
         binding!!.etQuery.removeTextChangedListener(textWatcher)
+        Log.d(TAG, "onPause")
+
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d(TAG, "onSaveInstanceState")
+
+    }
+
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.d(TAG, "onViewStateRestored")
+
+    }
     private val textWatcher by lazy {
         object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -100,6 +122,7 @@ class SearchFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(TAG, "onDestroy")
         _searchFragmentBinding = null
     }
 
@@ -116,5 +139,41 @@ class SearchFragment : Fragment() {
         binding!!.rvItems.layoutManager =
             GridLayoutManager(activity, count, GridLayoutManager.VERTICAL, false)
     }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d(TAG, "onAttach")
+
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")
+
+    }
+
+
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart")
+
+    }
+
+
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop")
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "onDestroyView")
+
+    }
+
+
 
 }

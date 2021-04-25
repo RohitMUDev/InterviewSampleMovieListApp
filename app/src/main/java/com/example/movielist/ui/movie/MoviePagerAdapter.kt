@@ -39,7 +39,6 @@ class MoviePagerAdapter(val context: Context) :
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-
         val data = getItem(position)
 
         data.let { movie ->

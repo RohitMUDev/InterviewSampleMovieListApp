@@ -1,5 +1,6 @@
 package com.example.movielist.ui.movie
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
@@ -15,11 +16,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movielist.R
 import com.example.movielist.data.local.sharedPreference.SharedPreferenceStringLiveData
 import com.example.movielist.databinding.MovieListFragmentBinding
+import com.example.movielist.util.RecyclerViewPaginator
 import com.example.movielist.util.SpacesItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
+private const val TAG = "Lifecycle Fragment1"
 
 class MovieListFragment : Fragment() {
 
@@ -30,10 +34,13 @@ class MovieListFragment : Fragment() {
 
     private val binding get() = _movieListFragmentBinding!!
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
 
         _movieListFragmentBinding = MovieListFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,11 +49,33 @@ class MovieListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
 
         val adapter = MoviePagerAdapter(requireContext())
         val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
+        retainInstance = true
+
+        movieListViewModel.enqueWork()
+        movieListViewModel.outputWorkInfos.observe(viewLifecycleOwner) Observer@{
 
 
+            listOfWorkInfo ->
+
+            if (listOfWorkInfo.isNullOrEmpty()) {
+                return@Observer
+            }
+
+            // We only care about the one output status.
+            // Every continuation has only one worker tagged TAG_OUTPUT
+            val workInfo = listOfWorkInfo[0]
+
+            if (workInfo.state.isFinished) {
+               println("worker finished")
+
+            } else {
+            }
+
+        }
 
         binding.apply {
             rvMovies.setHasFixedSize(true)
@@ -87,11 +116,64 @@ class MovieListFragment : Fragment() {
             binding.tvTitle.text = it
         }
 
+        val recyclerViewPaginator = object : RecyclerViewPaginator(recyclerView = binding.rvMovies){
+            override val isLastPage: Boolean
+                get() = false
+
+            override fun loadMore(start: Long, count: Long) {
+
+            }
+
+        }
+
+
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d(TAG, "onAttach")
+
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause")
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume")
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop")
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "onDestroyView")
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(TAG, "onDestroy")
+
         _movieListFragmentBinding = null
     }
 
@@ -108,6 +190,7 @@ class MovieListFragment : Fragment() {
         binding.rvMovies.layoutManager =
             GridLayoutManager(activity, count, GridLayoutManager.VERTICAL, false)
     }
+
 
 
 }
